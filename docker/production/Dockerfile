@@ -68,12 +68,8 @@ USER root
 RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID && \
     docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
 
-# Install PostgreSQL repository and keys
-RUN apk add --no-cache gnupg && \
-    mkdir -p /usr/share/keyrings && \
-    curl -fSsL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor > /usr/share/keyrings/postgresql.gpg
-
 # Install system dependencies
+# Note: PostgreSQL client is available directly from Alpine repositories
 RUN --mount=type=cache,target=/var/cache/apk \
     apk upgrade && \
     apk add --no-cache \
